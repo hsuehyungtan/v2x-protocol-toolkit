@@ -108,7 +108,7 @@ export default function Home() {
           <div className="mt-8 p-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
             <h2 className="text-lg font-semibold mb-2 text-zinc-800 dark:text-zinc-200">Calculated Time (Local)</h2>
             <div className="text-xl font-mono text-blue-600 dark:text-blue-400">
-              {!isMounted ? "..." : (calculatedDate ? calculatedDate.toLocaleString(undefined, { hour12: false }).replace(/\u202f/g, ' ') : "Invalid Date")}
+              {!isMounted ? "..." : (calculatedDate ? `${calculatedDate.toLocaleDateString()} ${calculatedDate.toLocaleTimeString(undefined, { hour12: false })}` : "Invalid Date")}
             </div>
             <div className="mt-4 flex flex-col gap-1">
               <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">TimeMark (0.1s from hour start): </span>
