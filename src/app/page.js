@@ -1,15 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { getAssetPath } from "@/lib/utils";
 
 export default function Home() {
-  const currentYear = new Date().getFullYear();
+  const [isMounted, setIsMounted] = useState(false);
 
   const [moy, setMoy] = useState(0);
   const [timestamp, setTimestamp] = useState(0);
-  const [year, setYear] = useState(currentYear);
+  const [year, setYear] = useState(2024);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+    setIsMounted(true);
+  }, []);
 
   const calculatedDate = useMemo(() => {
     // Validate inputs
@@ -103,16 +108,16 @@ export default function Home() {
           <div className="mt-8 p-6 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">
             <h2 className="text-lg font-semibold mb-2 text-zinc-800 dark:text-zinc-200">Calculated Time (Local)</h2>
             <div className="text-xl font-mono text-blue-600 dark:text-blue-400">
-              {calculatedDate ? calculatedDate.toLocaleString(undefined, { hour12: false }) : "Invalid Date"}
+              {!isMounted ? "..." : (calculatedDate ? calculatedDate.toLocaleString(undefined, { hour12: false }) : "Invalid Date")}
             </div>
             <div className="mt-4 flex flex-col gap-1">
               <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">TimeMark (0.1s from hour start): </span>
               <span className="text-lg font-mono text-indigo-600 dark:text-indigo-400">
-                {tenthOfSecondInHour !== null ? tenthOfSecondInHour : "-"}
+                {!isMounted ? "-" : (tenthOfSecondInHour !== null ? tenthOfSecondInHour : "-")}
               </span>
             </div>
             <div className="text-sm mt-4 pt-4 border-t border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-zinc-500">
-              ISO: {calculatedDate ? calculatedDate.toISOString() : "-"}
+              ISO: {!isMounted ? "-" : (calculatedDate ? calculatedDate.toISOString() : "-")}
             </div>
           </div>
         </div>
