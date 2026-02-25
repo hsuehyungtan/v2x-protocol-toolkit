@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useMemo, useEffect } from "react";
 import { getAssetPath } from "@/lib/utils";
+import { calculateDateFromMoyAndTimestamp, calculateTenthOfSecondInHour } from "@/lib/v2x-time";
 
 export default function TimeCalculator() {
     const [isMounted, setIsMounted] = useState(false);
@@ -17,36 +18,11 @@ export default function TimeCalculator() {
     }, []);
 
     const calculatedDate = useMemo(() => {
-        // Validate inputs
-        if (year === null || isNaN(year)) return null;
-
-        // Create date for Jan 1st of the specified year (using local timezone)
-        const startDate = new Date(year, 0, 1, 0, 0, 0, 0);
-
-        // Add MOY (minutes) and timestamp (milliseconds)
-        // MOY max is 527040 (minutes in a leap year)
-        // timestamp is 0..65535 milliseconds
-        const totalMs = startDate.getTime() + (Number(moy) * 60 * 1000) + Number(timestamp);
-
-        const resultDate = new Date(totalMs);
-
-        // Check if valid date
-        if (isNaN(resultDate.getTime())) return null;
-
-        return resultDate;
+        return calculateDateFromMoyAndTimestamp(moy, timestamp, year);
     }, [moy, timestamp, year]);
 
     const tenthOfSecondInHour = useMemo(() => {
-        if (!calculatedDate) return null;
-
-        // milliseconds since start of hour = minutes * 60 * 1000 + seconds * 1000 + milliseconds
-        const min = calculatedDate.getMinutes();
-        const sec = calculatedDate.getSeconds();
-        const ms = calculatedDate.getMilliseconds();
-
-        const totalMsInHour = (min * 60 * 1000) + (sec * 1000) + ms;
-        // 1 unit = 0.1 seconds (100 ms)
-        return Math.floor(totalMsInHour / 100);
+        return calculateTenthOfSecondInHour(calculatedDate);
     }, [calculatedDate]);
 
     return (
