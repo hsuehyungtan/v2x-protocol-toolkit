@@ -8,6 +8,11 @@ export default function Home() {
       href: "/time-calculator",
       title: "Time Calculator",
       description: "Convert MOY and Timestamp to standard Date and Time."
+    },
+    {
+      href: "/spat-parser",
+      title: "SPAT JSON Parser",
+      description: "Paste and parse SPAT JSON to view signal groups."
     }
   ];
 
