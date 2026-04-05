@@ -32,15 +32,20 @@ export function sortEventStates(states) {
         return tA - tB;
     });
 
-    const rolloverIndex = sortedStates.findIndex(st => {
-        if (!st.timing || st.timing.startTime === undefined || st.timing.minEndTime === undefined) return false;
-        return st.timing.minEndTime < st.timing.startTime;
-    });
+    let splitIndex = 0;
+    let maxGap = 0;
+    
+    for (let i = 0; i < sortedStates.length - 1; i++) {
+        const gap = (sortedStates[i + 1].timing?.startTime ?? 0) - (sortedStates[i].timing?.startTime ?? 0);
+        if (gap > maxGap) {
+            maxGap = gap;
+            splitIndex = i + 1;
+        }
+    }
 
-    if (rolloverIndex !== -1) {
-        const rolloverEnd = sortedStates[rolloverIndex].timing.minEndTime;
-        const group1 = sortedStates.filter(st => (st.timing?.startTime ?? 0) > rolloverEnd);
-        const group2 = sortedStates.filter(st => (st.timing?.startTime ?? 0) <= rolloverEnd);
+    if (maxGap > 18000) {
+        const group1 = sortedStates.slice(splitIndex);
+        const group2 = sortedStates.slice(0, splitIndex);
         sortedStates = [...group1, ...group2];
     }
     return sortedStates;
