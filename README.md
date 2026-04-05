@@ -1,12 +1,18 @@
 # V2X Protocol Toolkit
 
-A Next.js web application that serves as a utility toolkit for V2X (Vehicle-to-Everything) protocol development. Currently, it features a **V2X Message Time Calculator** to convert MOY (MinuteOfTheYear) and Timestamp into standard DateTime formats and calculate TimeMark.
+A Next.js web application that serves as a utility toolkit for V2X (Vehicle-to-Everything) protocol development. Currently, it provides tools like a **Time Calculator** and a **SPAT JSON Parser** to aid in analyzing and testing V2X messages.
 
 ## Features
 
+### Time Calculator
 - **DateTime Conversion**: Convert V2X MOY (MinuteOfTheYear) and Timestamp (ms) into a standard Date/Time.
 - **TimeMark Calculation**: Automatically calculates the TimeMark (tenths of a second since the start of the hour).
 - **ISO 8601 Output**: Provides standard ISO string representation of the calculated time.
+
+### SPAT JSON Parser
+- **JSON Parsing**: Paste and parse standard SPAT (Signal Phase and Timing) JSON data.
+- **Intersection Information**: Visualize intersection IDs, names, and statuses.
+- **Signal Groups & Event States**: View ordered, color-coded signal states (e.g., Stop-And-Remain, Permissive-Movement-Allowed) with their calculated timings and speeds.
 
 ## Tech Stack
 
